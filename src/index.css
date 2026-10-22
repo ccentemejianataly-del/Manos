@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --canvas: 247 244 255;
+  --card: 255 255 255;
+  --ink: 33 26 53;
+  --muted: 123 114 146;
+  --line: 234 228 247;
+  --surface: 241 236 255;
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: 16 13 28;
+  --card: 25 20 40;
+  --ink: 245 241 255;
+  --muted: 167 157 189;
+  --line: 43 36 64;
+  --surface: 33 26 53;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: rgb(var(--canvas));
+  color: rgb(var(--ink));
+  font-family: 'Nunito', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(108, 76, 241, 0.22);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(108, 76, 241, 0.55);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-extrabold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-45;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-500 text-white shadow-lift hover:-translate-y-0.5 hover:bg-brand-600 active:translate-y-0 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-card text-ink shadow-soft hover:-translate-y-0.5 hover:border-brand-200 hover:text-brand-600 active:translate-y-0 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply btn text-muted hover:bg-surface hover:text-ink;
+  }
+
+  .btn-danger {
+    @apply btn bg-coral-500 text-white shadow-lift hover:bg-coral-600 active:scale-[0.98];
+  }
+
+  .card {
+    @apply rounded-3xl border border-line bg-card shadow-soft;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-card px-3 py-1.5 text-xs font-extrabold text-muted;
+  }
+
+  .label {
+    @apply text-[11px] font-black uppercase tracking-[0.16em] text-muted;
+  }
+
+  .section-title {
+    @apply font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-line bg-card px-4 py-3 text-sm font-bold text-ink outline-none transition placeholder:font-medium placeholder:text-muted/70 focus:border-brand-400 focus:ring-4 focus:ring-brand-500/10;
+  }
+}
+
+.font-display {
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.safe-bottom {
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(108, 76, 241, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108, 76, 241, 0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.dark .bg-grid {
+  background-image:
+    linear-gradient(rgba(167, 139, 250, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.07) 1px, transparent 1px);
+}
+
+.soft-mask {
+  mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -16px;
+  width: 9px;
+  height: 15px;
+  border-radius: 3px;
+  animation: confetti-fall var(--duration, 3s) var(--delay, 0s) ease-in forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -20px, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 20px), 105vh, 0) rotate(var(--spin, 540deg));
+    opacity: 0;
+  }
+}
+
+@keyframes mascot-blink {
+  0%,
+  46%,
+  50%,
+  100% {
+    transform: scaleY(1);
+  }
+  48% {
+    transform: scaleY(0.1);
+  }
+}
+
+.mascot-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascot-blink 5.4s infinite;
+}
+
+@keyframes gentle-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.gentle-bounce {
+  animation: gentle-bounce 3.6s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+html.reduced-motion *,
+html.reduced-motion *::before,
+html.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

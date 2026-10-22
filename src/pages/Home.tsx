@@ -17,6 +17,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { DemoNote } from '../components/DemoNote';
+import { InstallAppCard } from '../components/InstallAppCard';
 import { Mascot } from '../components/Mascot';
 import { Modal } from '../components/Modal';
 import { ProgressRing } from '../components/ProgressRing';
@@ -357,6 +358,7 @@ export function Home() {
           <GoalCard compact />
           <StreakCard />
         </div>
+        <InstallAppCard />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">

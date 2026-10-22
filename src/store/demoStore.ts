@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { achievements as achievementDefinitions } from '../data/achievements';
+import { clearInstalledFlag } from '../lib/install';
 import type { DemoSettings, LessonResult, RawLessonResult } from '../types';
 import { todayKey, yesterdayKey } from '../lib/utils';
 
@@ -171,6 +172,7 @@ export const useDemoStore = create<DemoState>()(
       },
 
       resetDemo: () => {
+        clearInstalledFlag();
         set({
           ...initialState,
           settings: { ...defaultSettings },

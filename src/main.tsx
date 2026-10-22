@@ -8,6 +8,7 @@ import '@fontsource/fredoka/latin-500.css';
 import '@fontsource/fredoka/latin-600.css';
 import '@fontsource/fredoka/latin-700.css';
 import './index.css';
+import './lib/install';
 import { App } from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -15,3 +16,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>,
 );
+
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener(
+    'load',
+    () => {
+      navigator.serviceWorker
+        .register(new URL('sw.js', document.baseURI))
+        .catch(() => undefined);
+    },
+    { once: true },
+  );
+}

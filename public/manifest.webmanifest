@@ -1,0 +1,62 @@
+{
+  "name": "Manos — Lengua de Señas Peruana",
+  "short_name": "Manos",
+  "description": "Demo para explorar el aprendizaje de Lengua de Señas Peruana (LSP) con lecciones cortas e imágenes interactivas.",
+  "lang": "es",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F7F4FF",
+  "theme_color": "#6C4CF1",
+  "categories": ["education", "lifestyle"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Aprender",
+      "short_name": "Aprender",
+      "description": "Ir al camino de aprendizaje.",
+      "url": "./#/aprender",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Diccionario",
+      "short_name": "Diccionario",
+      "description": "Explorar las señas de la demo.",
+      "url": "./#/diccionario",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

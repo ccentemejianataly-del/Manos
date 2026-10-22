@@ -15,6 +15,7 @@ Demo web navegable y responsive para explorar una experiencia de aprendizaje de 
 - Ajustes de tema, movimiento reducido, descripciones, secuencias en espejo y meta diaria.
 - Práctica libre y clasificación como pantallas **“Próximamente”**, claramente señalizadas.
 - Persistencia local del progreso en `localStorage`.
+- Instalación en el teléfono como app (PWA) desde un botón en Inicio.
 - Diseño responsive para teléfono, tablet y escritorio; navegación por teclado.
 
 ## Stack
@@ -61,6 +62,20 @@ npm run preview
 
 El resultado queda en `dist/`. La app usa rutas con hash y recursos relativos, así que puede publicarse en un hosting estático o dentro de una subcarpeta. Para verla localmente, usa `npm run preview` (no abras `index.html` directamente con `file://`).
 
+## Instalar en el teléfono
+
+La demo es una **PWA**: en la pantalla de **Inicio** (visible en pantallas menores a `lg`) aparece la tarjeta *Instala Manos en tu teléfono* con su botón.
+
+- **Android / Chrome:** el botón dispara el instalador nativo de Chrome; al confirmarlo, el ícono de Manos queda entre tus aplicaciones y la demo se abre en modo app (sin barra del navegador). También puedes usar el menú del navegador → *Instalar aplicación*.
+- **iPhone / iPad:** el botón abre instrucciones paso a paso. En Safari toca *Compartir* → *Añadir a pantalla de inicio* → *Añadir*.
+- **Otros navegadores:** si no hay instalador disponible, el botón muestra instrucciones equivalentes (*Instalar aplicación* o *Añadir a pantalla de inicio* en el menú del navegador).
+
+Detalles técnicos:
+
+- El manifiesto está en `public/manifest.webmanifest` y los iconos en `public/icons/` (generados por `.tools/generate-icons.mjs`).
+- El service worker (`public/sw.js`) **solo se registra en builds de producción** (`import.meta.env.PROD`), así que el instalador nativo no se dispara en `npm run dev`. Para probarlo: `npm run build && npm run preview`.
+- Al instalarse, el progreso sigue guardándose en el navegador (no hay cuentas ni sincronización en la nube).
+
 ## Scripts
 
 | Comando | Descripción |
@@ -93,11 +108,12 @@ El progreso se guarda bajo la clave `manos-lsp-demo-v1`. Puedes borrarlo desde *
 src/
   components/     Componentes reutilizables (sign art, mascota, navegación, modales…)
   data/           Señas, unidades, lecciones, categorías y logros simulados
-  lib/            Generación determinista de ejercicios y utilidades
+  lib/            Generación determinista de ejercicios, instalación PWA y utilidades
   pages/          Onboarding, inicio, lección, diccionario, perfil y ajustes
   store/          Estado global y persistencia con Zustand
+public/           Manifiesto PWA, service worker, iconos y favicon
 Docs/             Plan de implementación y criterios de alcance
-.tools/           Scripts de captura y QA usados durante el desarrollo
+.tools/           Scripts de captura, iconos y QA usados durante el desarrollo
 .screens/         Capturas generadas durante la QA visual
 ```
 
@@ -115,13 +131,23 @@ Esta entrega no incluye backend, cuentas, sincronización en la nube, cámara, r
 
 ## QA
 
-Durante el desarrollo se validaron el flujo completo de una lección, la persistencia, los logros, el onboarding, el tema oscuro, los ajustes de accesibilidad y el reinicio de la demo. Los scripts de apoyo están en `.tools/` y las capturas en `.screens/`.
+Durante el desarrollo se validaron el flujo completo de una lección, la persistencia, los logros, el onboarding, el tema oscuro, los ajustes de accesibilidad, el reinicio de la demo y la instalación PWA (tarjeta de Inicio, instalador nativo, instrucciones de respaldo y service worker). Los scripts de apoyo están en `.tools/` y las capturas en `.screens/`.
 
 Para repetir las pruebas con el servidor de desarrollo activo:
 
 ```bash
 node .tools/flow-test.mjs
 node .tools/qa-test.mjs
+node .tools/install-test.mjs
+```
+
+`install-test.mjs` también puede ejecutarse contra el build de producción para comprobar el service worker:
+
+```bash
+npm run build
+npm run preview   # en otra terminal
+# en Windows (PowerShell):
+$env:BASE_URL = "http://localhost:4173"; $env:EXPECT_SW = "1"; node .tools/install-test.mjs
 ```
 
 Los scripts usan `puppeteer-core` y una instalación local de Google Chrome; ajusta la ruta de Chrome en el script si tu equipo usa otra ubicación.
